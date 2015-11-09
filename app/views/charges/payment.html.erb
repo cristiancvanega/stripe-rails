@@ -1,1 +1,14 @@
-Carenalga!!!
+<div class="authform">
+  <%= form_for pay_path do |f| %>
+    <h3>Your Payment</h3>
+    <div class="form-group">
+      <%= f.label :description %>
+      <%= f.text_field :description, :autofocus => true, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :amount %>
+      <%= f.number_field :amount, class: 'form-control' %>
+    </div>
+      <%= f.submit 'Pay now', :class => 'button right' %>
+  <% end %>
+</div>

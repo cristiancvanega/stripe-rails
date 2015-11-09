@@ -10,7 +10,6 @@ class ChargesController < ApplicationController
 
 	def create
 	  # Amount in cents
-
 	  amount = 99
 
 	  if !current_user.enabled? then
@@ -50,14 +49,16 @@ class ChargesController < ApplicationController
 	def pay
 		charge = Stripe::Charge.create(
 		    :customer    => current_user.id_customer,
-		    :amount      => 150,
-		    :description => 'Pay from method pay',
+		    :amount      => params['/pay']['amount'],
+		    :description => params['/pay']['description'],
 		    :currency    => 'usd'
 		  )
-
 		 Transaction.new(:user_id => current_user.id.to_i, 
 		 				 :id_transaction_stripe => charge.id.to_s, 
-		 				 :amount => charge.amount.to_i).save
+		 				 :amount => charge.amount.to_i,
+		 				 :description => params['/pay']['description']).save
+		
+		render json: charge.status
 	end
 
 end
